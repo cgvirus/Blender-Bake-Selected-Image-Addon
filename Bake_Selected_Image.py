@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Bake Selected Image",
     "author": "Fahad Hasan Pathik CGVIRUS",
-    "version": (0, 1),
+    "version": (0, 2),
     "blender": (2, 80, 0),
     "location": "Toolshelf > Layers Tab",
     "description": "Bake Texture Easily with Selected Image",
@@ -37,12 +37,12 @@ class Bake_OT_InputImage(bpy.types.Operator):
                 bpy.data.materials[mat.name].use_nodes = True
                 node_tree = bpy.data.materials[mat.name].node_tree
 
-                #img_name = bpy.data.images['Albedo']
-                img_name = bpy.data.textures[0].image
+
+                img_name = bpy.context.texture.image
 
 
                 node = node_tree.nodes.new("ShaderNodeTexImage")
-                node.name = "BakeTEx"
+                node.name = "BakeTex"
 
                 node.image = img_name
 
@@ -55,11 +55,6 @@ class Bake_OT_InputImage(bpy.types.Operator):
 
             else:
                 o.select = False
-
-
-
-        # bake_type = context.scene.cycles.bake_type
-        # bpy.ops.object.bake('INVOKE_DEFAULT',type = bake_type)
 
 
         return {'FINISHED'}
@@ -77,8 +72,6 @@ class Bake_OT_SelectedImage(bpy.types.Operator):
     def execute(self, context):
         bake_type = context.scene.cycles.bake_type
         bpy.ops.object.bake('INVOKE_DEFAULT',type = bake_type)
-
-        # obj.image_input.node_tree.nodes.remove(node)
 
 
         return {'FINISHED'}
@@ -108,7 +101,6 @@ class BAKESELECTED_PT_Panel(bpy.types.Panel):
         use_pin_id = space.use_pin_id
         user = context.texture_user
 
-        # layout.prop_search(tex, "image", bpy.data, "images")
 
         col = layout.column()
 
