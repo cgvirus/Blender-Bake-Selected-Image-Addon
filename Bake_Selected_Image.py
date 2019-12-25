@@ -24,37 +24,32 @@ class Bake_OT_InputImage(bpy.types.Operator):
     bl_region_type = 'WINDOW'
     bl_context = "render"
 
-    def execute(self, context):
+    def execute(self, context):        
         for o in context.selected_objects:
             if o.type == 'MESH':
-                #the first one is active material
-                active_mat_index = bpy.data.objects[o.name].active_material_index
+                for m in bpy.data.objects[o.name].material_slots:
 
-                mat = o.material_slots[active_mat_index].material
-
-
-                #enable the nodes in the materials and assign the image to a node
-                bpy.data.materials[mat.name].use_nodes = True
-                node_tree = bpy.data.materials[mat.name].node_tree
+                    m.material.use_nodes = True
+                    node_tree = bpy.data.materials[m.material.name].node_tree
 
 
-                img_name = bpy.context.texture.image
+                    img_name = bpy.context.texture.image
 
 
-                node = node_tree.nodes.new("ShaderNodeTexImage")
-                node.name = "BakeTex"
+                    node = node_tree.nodes.new("ShaderNodeTexImage")
+                    node.name = "BakeTex"
 
-                node.image = img_name
+                    node.image = img_name
 
-                node.select = True
-                
+                    node.select = True
+                    
 
-                node_tree.nodes.active = node
+                    node_tree.nodes.active = node
 
 
 
             else:
-                o.select = False
+                pass
 
 
         return {'FINISHED'}
