@@ -1,4 +1,4 @@
-##Project abandoned
+## Project abandoned
 More powerful tool is in town: https://github.com/danielenger/Principled-Baker 
 
 # Blender-Bake-Selected-Image-Addon
